@@ -10,3 +10,4 @@ B = linspace(-d/2,d/2,100);
 
 dist = [A; B];
 
+%points = [(A./cos(a)),(B./cos(a))];
