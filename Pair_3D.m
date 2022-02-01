@@ -25,6 +25,8 @@ hold on
 plot(X(1,:),X(2,:),'or')
 
 %% 3D
+clear all; close all; clc;
+
 di = 1; 
 d = linspace(-0.5*di,0.5*di,10);
 [x,y,z] = meshgrid(d);
@@ -52,8 +54,9 @@ axis square
 
 %Half as big as previous squares
 l2 = linspace(-0.1,0.1,length(d).*2);
-orgsep = (0.5445./2)*0.4;
+orgsep = (0.5445./2)*0.2;
 loc = [-orgsep orgsep];
+
 % Fixed Along Y
 for i = 1:2
     pos = loc(i).*ones(1,length(l2));
@@ -61,6 +64,24 @@ for i = 1:2
     Y2(:,:,i) = [pos;l2(1).*ones(1,length(l2));l2];
     Y3(:,:,i) = [pos;l2(end).*ones(1,length(l2));l2];
     Y4(:,:,i) = [pos;l2;l2(end).*ones(1,length(l2))];
+    Y(:,:,i) = [Y1(:,:,i) Y2(:,:,i) Y3(:,:,i) Y4(:,:,i)];
+end
+
+plot3(Y(1,:,1),Y(2,:,1),Y(3,:,1),'or')
+plot3(Y(1,:,2),Y(2,:,2),Y(3,:,2),'or')
+
+%Twice as big as original
+l3 = linspace(-0.4,0.4,length(d).*2);
+orgsep = (0.5445./2)*0.8;
+loc = [-orgsep orgsep];
+
+% Fixed Along Y
+for i = 1:2
+    pos = loc(i).*ones(1,length(l3));
+    Y1(:,:,i) = [l3;l3(1).*ones(1,length(l3));pos];
+    Y2(:,:,i) = [l3(1).*ones(1,length(l3));l3;pos];
+    Y3(:,:,i) = [l3(end).*ones(1,length(l3));l3;pos];
+    Y4(:,:,i) = [l3;l3(end).*ones(1,length(l3));pos];
     Y(:,:,i) = [Y1(:,:,i) Y2(:,:,i) Y3(:,:,i) Y4(:,:,i)];
 end
 
