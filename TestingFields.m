@@ -18,7 +18,6 @@ do2 = 0.2;
 a = linspace(-do2,do2,res.*2*do2);
 
 
-
 %% Biot-Savart Law
 function [Bx,By,Bz] = biot_savart(rs,rc,I,dl)
 
