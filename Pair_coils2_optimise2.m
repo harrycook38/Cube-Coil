@@ -1,8 +1,7 @@
 clear all
 close all
 clc
-%% Preamble
-%COIL PAIR 1
+%% Initial
 %Environment to calculate B field on
 di1 = 1;
 np = 31;
@@ -50,12 +49,13 @@ By = Bin(:,2);
 %% Calculating Initial polynomial
 
 fit = [y.^2 ones(size(y))]\By; % B1x^2 and B0 constants
+fit = [fit(1),0,fit(2)];
 targ = fit(1); 
 
 %% Optimising inner loop
 
 %Setting ranging values 
-Is = I.*linspace(0.01,1,21); %Currents
+Is = 0.5.*I; %Current scales linearly w field (Picked current Will found)
 const = Is .* mu/(4*pi);
 Ls = linspace(0.1,0.35,26); %Lengths
 
@@ -88,19 +88,46 @@ for i = 1:length(Is)
 
 end
 
-diffs = targ + itarg; %Taking the difference
+diffs = targ - itarg; %Taking the difference
+idx = find(diffs == min(diffs)); %Finding minimum distance between x^2 constants
 
-[row,col] = find(diffs == min(min(diffs))); %Finding minimum distance between x^2 constants
+%disp(['Current: ' num2str(Is(row)) ', Length: ' num2str(Ls(col))])
 
-disp(['Current ' num2str(Is(row)) 'Length ' num2str(Ls(col))])
+[XYZdet,dldet] = writecoily(Ls(idx),loc,np,2,2);
 
 figure(600)
 plot(y,By,'r')
 hold on
-plot(y,B(:,row,col),'b') %Far too big
+plot(y,B(:,idx),'b') %Far too big
 
 
 %% Troubleshooting
+
+%Look at coils
+figure(1000)
+quiver3(XYZ1(:,1),XYZ1(:,2),XYZ1(:,3),dl1(:,1),dl1(:,2),dl1(:,3),1)
+axis equal
+hold on
+quiver3(XYZdet(:,1),XYZdet(:,2),XYZdet(:,3),dldet(:,1),dldet(:,2),dldet(:,3),1)
+
+
+%Look at initial fit
+
+% val = polyval(fit,y);
+% 
+% figure(2000)
+% plot(y,val)
+
+%Look at x2 constants through loops
+
+figure(3000)
+plot(diffs) %Looking at where the difference between x2 constants is lowest
+
+
+
+
+
+
 
 
 

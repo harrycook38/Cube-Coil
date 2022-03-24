@@ -1,11 +1,11 @@
 function [XYZ, dl] = writecoily(diam,loc,n,numcoil,dir)
-%WRITE COIL WITH SYMMETRY IN THE Y AXIS
+%WRITE COIL along Y AXIS
 
 %sep - Coil diameter
 %loc - location(s) of the coil
 %N - number of wire elements on the side of a square
 %numcoil - number of coils
-%dir - 1 or 2, direction of current flow
+%dir - direction
 
 %XYZ - Coordinates of wire
 %dl - current elements
@@ -27,9 +27,9 @@ XYZ = Y;
 
 %Line element vectors
 if dir == 1
-    dlY = diff(Y);
+dlY = diff(Y);
 elseif dir == 2
-    dlY = diff(1-Y);
+dlY = -1.*diff(Y);
 end
 dlY(end+1,:) = dlY(end,:);
 dlY(end./2,:) = dlY((end./2)-1,:);
