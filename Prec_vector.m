@@ -2,18 +2,25 @@ clear all
 close all 
 clc
 
-%% xy plane
-t = linspace(0,60,1000);
+%% Preamble
 
-f1 = 1;
-T1 = (2*pi)./f1;
+time = 10;
+t = linspace(0,time,1000);
+
+numrotxy = 5;  %Number of circles drawn in xy plane per time
+numrotz = 0.5; %Number of vertical gain periods
+
+%% xy plane
+
+T1 = max(t)./numrotxy;
+f1 = (2*pi)/T1; 
 
 x = sin(f1.*t);
 y = cos(f1.*t);
 
 %% z direction
 
-T2 = max(t).*2; %period = double the timespan to go from -1 to 1 
+T2 = max(t)./numrotz; %period = double the timespan to go from -1 to 1 
 f2 = (2*pi)/T2; 
 
 z = -cos(f2.*t);
