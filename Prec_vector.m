@@ -11,15 +11,12 @@ numrotxy = 5;  %Number of circles drawn in xy plane per time
 numrotz = 0.5; %Number of vertical gain periods
 
 %% xy plane
-
 T1 = max(t)./numrotxy;
 f1 = (2*pi)/T1; 
 
 x = sin(f1.*t);
 y = cos(f1.*t);
-
 %% z direction
-
 T2 = max(t)./numrotz; %period = double the timespan to go from -1 to 1 
 f2 = (2*pi)/T2; 
 
@@ -30,7 +27,6 @@ plot(t,z)
 or = [0 0 0]; %Origin
 r2 = [x;y;z;];
 %% Plotting
-
 %Angles
 theta = acosd(z);
 phi = atand(y./x);
