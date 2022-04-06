@@ -1,0 +1,11 @@
+Practice data for for u/g students to analysie in preparation for box-coil analysis.
+Output through QuSpin drivers.
+
+Record 60 data, 1213 Hz sample rate
+
+Ch 1: 11 Hz, 3 V DAQ o/p, sinusoidal (coil 6)
+Ch 1: 20 Hz, 4 V DAQ o/p, sinusoidal (coil 1)
+Ch 1: 27 Hz, 5 V DAQ o/p, sinusoidal (coil 4)
+Ch4: noise
+
+DAQ sensitivity +- 0.1 V
