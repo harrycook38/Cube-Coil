@@ -4,14 +4,11 @@ clc
 
 addpath('Code/')
 addpath('Data/5-4-22')
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
 fname = 'QZFM_6.lvm';
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Main
 %Load in time stamps and data
 [rtime,rdata] = eb_read_lvm(fname);
-
 fgmout = rdata(:,1:3);   %FGM Data
 Iout = rdata(:,4:6)./10; %Current out from loops
 
@@ -32,7 +29,6 @@ N = length(Bcor);
 fti = fft(Bcor);
 ft = fti(1:N/2+1,:);
 freq = 0:Fs/N:Fs/2;
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Filter 
 mu = 10;  %Target frequency
@@ -51,9 +47,13 @@ subplot(3,1,2)
 plot(rtime(1:2:end),inv(:,2))
 subplot(3,1,3)
 plot(rtime(1:2:end),inv(:,3))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%RMS Output
+xrms = rms(inv(:,1));
+yrms = rms(inv(:,2));
+zrms = rms(inv(:,3));
 
 %% Power Spectrum check
-
 psd = (1/(Fs*N)).*ft.*conj(ft);
 psd(2:end-1,:) = 2*psd(2:end-1,:);
 
