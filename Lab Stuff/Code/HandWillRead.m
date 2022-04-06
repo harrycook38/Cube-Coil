@@ -56,18 +56,19 @@ plot(freq,10.*log10(psdz))
 mu = 10; %Target frequency
 sd = 0.5;
 
-a = (1./sqrt(2.*pi.*sd));
+a = [max(psdx); max(psdy); max(psdz);];
+b = (1./sqrt(2.*pi.*sd));
 
-gau = a.*exp(-(freq-mu).^8/(2*sd^2));
+gau = b.*exp(-(freq-mu).^8/(2*sd^2));
 
-filtx = gau(1,:)'.*psdx;
-invx = ifft(filtx);
+filtx = gau'.*xft;
+invx = ifft(filtx,'symmetric');
 
-filty = gau(2,:)'.*psdy;
-invy = ifft(filty);
+filty = gau'.*yft;
+invy = ifft(filty,'symmetric');
 
-filtz = gau(3,:)'.*psdz;
-invz = ifft(filtz);
+filtz = gau'.*zft;
+invz = ifft(filtz,'symmetric');
 
 figure(3)
 subplot(3,1,1)
