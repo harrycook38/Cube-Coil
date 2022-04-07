@@ -3,21 +3,19 @@ close all
 clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Preamble
-addpath('Code/')
-addpath('Data/5-4-22')
-
-fname = 'QZFM_6.lvm';   %Filename
+cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/7-4-22')
+fname = 'QZFM_3.lvm';   %Filename
 Fs = 1213;              %Sampling Frequency
-mu = 10;                %Target frequency to filter around
+ %X Y Z  %Target frequencies to filter around
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Main
 %Load in time stamps and data
 [rtime,rdata] = eb_read_lvm(fname);
 fgmout = rdata(:,1:3);      %FGM Data
-Iout = rdata(:,4:6)./10;    %Current out from loops
-figure(1)
-plot(rtime,Iout)
-title("Current outputs from coils")
+%Iout = rdata(:,4:6)./10;    %Current out from loops
+% figure(1)
+% plot(rtime,Iout)
+% title("Current outputs from coils")
 
 Bout = 0.1e-6*fgmout;       %Field (Conversion 0.1 uT/V)
 Bcor = Bout - mean(Bout,1); %Correct for Vertical Offset
@@ -27,31 +25,57 @@ N = length(Bcor);
 fti = fft(Bcor);
 ft = fti(1:N/2+1,:);
 freq = 0:Fs/N:Fs/2;
+
+in_f = find(freq ==100);
+
+inx = max(abs(ft(1:in_f,1)));
+iny = max(abs(ft(1:in_f,2)));
+inz = max(abs(ft(1:in_f,3)));
+
+fx = find(abs(ft(:,1)) == inx);
+fy = find(abs(ft(:,2)) == iny);
+fz = find(abs(ft(:,3)) == inz);
+
+mu = [freq(1,fx); freq(1,fy); freq(1,fz);];
+disp(['Determined Frequencies: ' num2str(mu')])
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Filter & Inverse ft
 sd = 0.5;                               %Width of filter
 a = (1./sqrt(2.*pi.*sd));               %Normalised Amplitude
 gau = a.*exp(-(freq-mu).^8/(2*sd^2));   %Modified Gaussian
+
 filt = gau'.*ft;                        %Filtering
+
 inv = ifft(filt,'symmetric');           %Inverse Transform
 
 redt = rtime(1:2:end);
+Bshort = Bcor(1:2:end,:);
+
+%Depending on datasize
+if length(redt) ~= length(inv)
+    inv = inv(1:end-1,:);
+elseif length(redt) ~= length(Bcor)/2
+    Bcor = Bcor(1:end-1,:);
+end
+
+
 for d = 1 %Plotting... 
 figure(2)
 subplot(3,1,1)
 plot(redt,inv(:,1))
 hold on
-plot(redt,Bcor(1:2:end,1))
+plot(redt,Bshort(:,1))
 
 subplot(3,1,2)
 plot(redt,inv(:,2))
 hold on
-plot(redt,Bcor(1:2:end,2))
+plot(redt,Bshort(:,2))
 
 subplot(3,1,3)
 plot(redt,inv(:,3))
 hold on
-plot(redt,Bcor(1:2:end,3))
+plot(redt,Bshort(:,3))
 end
 %^^^^^Y axis still out of phase, how to remove phase?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,7 +89,6 @@ Bvec = inv;
 or = [0 0 0]; %Origin
 
 top = max(max(max(Bvec)));
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Angles
 %y is the vertical
@@ -100,7 +123,7 @@ end
 
 
 
-% %% Power Spectrum check
+%% Power Spectrum check
 % psd = (1/(Fs*N)).*ft.*conj(ft);
 % psd(2:end-1,:) = 2*psd(2:end-1,:);
 % 
