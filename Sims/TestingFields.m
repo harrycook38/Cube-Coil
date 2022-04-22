@@ -4,7 +4,6 @@ clear all;close all;clc
 %% In 3D
 mu = 4*pi*10^(-7); 
 I = 1; %Amp
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Creating environment
 res = 20;

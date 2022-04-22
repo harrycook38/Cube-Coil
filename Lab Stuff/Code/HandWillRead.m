@@ -6,7 +6,6 @@ clc
 cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/7-4-22')
 fname = 'QZFM_3.lvm';   %Filename
 Fs = 1213;              %Sampling Frequency
- %X Y Z  %Target frequencies to filter around
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Main
 %Load in time stamps and data
@@ -26,17 +25,20 @@ fti = fft(Bcor);
 ft = fti(1:N/2+1,:);
 freq = 0:Fs/N:Fs/2;
 
-in_f = find(freq ==100);
+%Find dominant 3 frequencies.
+in = find(freq == 100);
+ind = max(abs(ft(1:in,:)),[],1);
 
-inx = max(abs(ft(1:in_f,1)));
-iny = max(abs(ft(1:in_f,2)));
-inz = max(abs(ft(1:in_f,3)));
-
-fx = find(abs(ft(:,1)) == inx);
-fy = find(abs(ft(:,2)) == iny);
-fz = find(abs(ft(:,3)) == inz);
+fx = find(abs(ft(:,1)) == ind(1));
+fy = find(abs(ft(:,2)) == ind(2));
+fz = find(abs(ft(:,3)) == ind(3));
 
 mu = [freq(1,fx); freq(1,fy); freq(1,fz);];
+
+if mu(2) == 50 %If powerline found, set to zero
+    mu(2) = 0;
+end
+
 disp(['Determined Frequencies: ' num2str(mu')])
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -52,13 +54,12 @@ inv = ifft(filt,'symmetric');           %Inverse Transform
 redt = rtime(1:2:end);
 Bshort = Bcor(1:2:end,:);
 
-%Depending on datasize
+%Depending on datasize (datalength missmatch correction)
 if length(redt) ~= length(inv)
     inv = inv(1:end-1,:);
 elseif length(redt) ~= length(Bcor)/2
     Bcor = Bcor(1:end-1,:);
 end
-
 
 for d = 1 %Plotting... 
 figure(2)
@@ -83,11 +84,11 @@ end
 xrms = rms(inv(:,1));
 yrms = rms(inv(:,2));
 zrms = rms(inv(:,3));
+disp(['RMS values: x: ', num2str(xrms),' y: ',num2str(yrms),' z: ',num2str(zrms)])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Creating Magnetic field vector
 Bvec = inv; 
 or = [0 0 0]; %Origin
-
 top = max(max(max(Bvec)));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Angles
@@ -102,7 +103,6 @@ plot(redt,phi)
 subplot(2,1,2)
 plot(redt,theta)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 figure(4)
 pl1 = quiver3(or(1),or(2),or(3),Bvec(1,1),Bvec(1,2),Bvec(1,3),"LineWidth",3);
 hold on
@@ -120,8 +120,6 @@ for j = 1:length(rtime(1:2:end))
     pl2.ZData = Bvec(1:j,3);
     drawnow
 end
-
-
 
 %% Power Spectrum check
 % psd = (1/(Fs*N)).*ft.*conj(ft);
