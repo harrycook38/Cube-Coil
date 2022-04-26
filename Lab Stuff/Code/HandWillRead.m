@@ -11,7 +11,7 @@ Fs = 1213;              %Sampling Frequency
 %Load in time stamps and data
 [rtime,rdata] = eb_read_lvm(fname);
 fgmout = rdata(:,1:3);      %FGM Data
-%Iout = rdata(:,4:6)./10;    %Current out from loops
+%Iout = rdata(:,4:6)./10;   %Current out from loops
 % figure(1)
 % plot(rtime,Iout)
 % title("Current outputs from coils")
@@ -57,7 +57,7 @@ Bshort = Bcor(1:2:end,:);
 %Depending on datasize (datalength missmatch correction)
 if length(redt) ~= length(inv)
     inv = inv(1:end-1,:);
-elseif length(redt) ~= length(Bcor)/2
+elseif length(redt)  ~= length(Bcor)/2
     Bcor = Bcor(1:end-1,:);
 end
 
