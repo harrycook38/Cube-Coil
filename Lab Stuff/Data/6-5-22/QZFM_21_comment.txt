@@ -1,0 +1,17 @@
+Harry and Will
+
+Testing unifomity in the Z direction to compare to our models.  2cm increments.
+
+Coords Z:  0 , 6
+
+Sin wave:
+
+Frequency: 10 Hz
+
+Amplitude: 5V
+
+Sample rate :1213
+Output rate: 10000
+Output duration: 100000 (10 seconds). 
+
+456 channels out might be nothing

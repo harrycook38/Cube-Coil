@@ -1,0 +1,22 @@
+Harry & Will 
+Testing uniformity in Y and Z together
+
+CORRESPONDING CHANNELS:  Z Signal measures Z Coil, X Signal measures Y coil.
+
+Coords:
+
+Z Coords: 0,-4
+Y Coords: 0,-6
+
+
+Y Coil driving: 5V at 8 Hz 
+Z Coil driiving: 5V at 10 Hz
+Sampling: 1213 Hz
+Output rate: 10000 Hz
+Output duration: 100000 Hz
+
+Current corresponds to 0.248Amp
+
+Channels used:  ai0:2 (FGM), ai19:21 (V across resistor)
+                             ao 12:14
+

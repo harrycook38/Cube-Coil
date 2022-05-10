@@ -3,8 +3,8 @@ close all
 clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Preamble
-cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/7-4-22')
-fname = 'QZFM_3.lvm';   %Filename
+cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/10-5-22/zy-uniformity')
+fname = 'QZFM_22.lvm';   %Filename
 Fs = 1213;              %Sampling Frequency
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Main
@@ -16,7 +16,7 @@ fgmout = rdata(:,1:3);      %FGM Data
 % plot(rtime,Iout)
 % title("Current outputs from coils")
 
-Bout = 0.1e-6*fgmout;       %Field (Conversion 0.1 uT/V)
+Bout = (1e-6*fgmout)./0.1;       %Field (Conversion 0.1 V/uT)
 Bcor = Bout - mean(Bout,1); %Correct for Vertical Offset
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Fourier

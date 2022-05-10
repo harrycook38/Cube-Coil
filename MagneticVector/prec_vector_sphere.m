@@ -1,9 +1,7 @@
 clear all
 close all 
 clc
-
 %% Preamble
-
 time = 10;
 t = linspace(0,time,1000);
 
@@ -13,25 +11,15 @@ numrotz = 0.5; %Number of vertical gain periods
 
 %% xy plane
 T1 = max(t)./numrotxy;
-f1 = (2*pi)/T1; 
+f1 = (2*pi)/T1;
 
 % z direction
 T2 = max(t)./numrotz;
 f2 = (2*pi)/T2; 
 
-% Tr = max(t)./numamp;
-% fr = (2*pi)./Tr;
-% r = (sin(fr.*t + ((3*pi)./2))+1)./2;
-% 
-% figure(1)
-% plot(t,r)
-% 
-% x = r.*sin(f1.*t);
-% y = r.*cos(f1.*t);
-% z = -cos(f2.*t)
-
 u = f1.*t;
 v = f2.*t;
+
 %TEST
 r = 1;
 x1 = cos(u).*sin(v);

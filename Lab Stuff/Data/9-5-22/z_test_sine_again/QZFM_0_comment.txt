@@ -1,0 +1,16 @@
+9-5-22
+Harry & Will
+
+Testing Z coils for uniformity again using the RMS from a sine wave. 
+Completed outside the mumetal room. 
+Uses an amplitude of 8V
+
+Coords:  -6, 6
+
+Sampling: 1213 Hz
+Output rate: 10000 Hz
+Output duration: 100000 Hz
+
+DC Offset: 5 Volts
+
+Ignore Channels  457

@@ -1,0 +1,42 @@
+clear all
+close all
+clc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Preamble
+cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/9-5-22/x_uniformity')
+%cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/6-5-22')
+addpath('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Code')
+Fs = 1213;              %Sampling Frequency
+nfiles= 49;              %Number of files/points measured
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Main
+
+fill = zeros(nfiles,3);
+for n = 1:nfiles
+        [rmsvals] = extractrms(['QZFM_',num2str(n-1)],Fs);
+        fill(n,:) = rmsvals;
+end
+
+uniform = reshape(fill,[sqrt(nfiles),sqrt(nfiles),3]);
+
+coords = [-6 -4 -2 0 2 4 6];
+figure(1)
+surf(coords,coords,uniform(:,:,1));
+hold on
+surf(coords,coords,uniform(:,:,2));
+surf(coords,coords,uniform(:,:,3));
+zlim([0,2.5e-9])
+xlabel('xgrid'); ylabel('ygrid'); zlabel('Magnetic Field');
+
+%Errors
+averg = mean(fill,1);
+c1 = ((fill./averg)-1)*100;
+error = reshape(c1,[sqrt(nfiles),sqrt(nfiles),3]);
+
+figure(2)
+surf(coords,coords,abs(error(:,:,1)));
+xlabel('xgrid'); ylabel('ygrid'); zlabel('Percent change from mean');
+
+
+
+

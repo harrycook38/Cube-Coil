@@ -1,0 +1,19 @@
+9-5-22
+Harry & Will
+
+Testing uniformity in the X coils.
+Sine wave with 5V amplitude and 10Hz signal.
+Going to acquire RMS after recording.
+Completed within the Mu-Bin
+
+Coords:  2, 2
+
+Sampling: 1213 Hz
+Output rate: 10000 Hz
+Output duration: 100000 Hz
+
+Current corresponds to 0.248Amp?
+
+Channels used:  ai0:2 (FGM), ai19:21 (V across resistor)
+                             ao 12:14
+
