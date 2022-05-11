@@ -7,7 +7,7 @@ cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/10-5-22/zy-uniformity
 %cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/6-5-22')
 addpath('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Code')
 Fs = 1213;              %Sampling Frequency
-nfiles= 56;              %Number of files/points measured
+nfiles= 56;             %Number of files/points measured
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Main
 
@@ -45,16 +45,25 @@ end
 uniform1 = reshape(fill2,[7,7,3]);
 
 coords1 = [-6 -4 -2 0 2 4 6];
-surf(coords1,coords1,uniform1(:,:,1));
-
-
+surf(coords1,coords1,uniform1(:,:,1))
 
 %% Errors
-% averg = mean(fill,1);
-% c1 = ((fill./averg)-1)*100;
-% error = reshape(c1,[8,7,3]);
-% 
-% figure(2)
-% surf(coords1,coords2,abs(error(:,:,1)));
-% xlabel('xgrid'); ylabel('ygrid'); zlabel('Percent change from mean');
+averg1 = mean(fill,1);
+c1 = ((fill./averg1)-1)*100;
+error1 = reshape(c1,[8,7,3]);
+
+averg2 = mean(fill,1);
+c2 = ((fill2./averg2)-1)*100;
+error2 = reshape(c2,[7,7,3]);
+
+figure(2)
+surf(coords1,coords2,abs(error1(:,:,1)));
+xlabel('xgrid'); ylabel('ygrid'); zlabel('Percent change from mean');
+
+%Percentage Change
+pc1 = mean(c1);
+pc2 = mean(c2);
+
+
+
 
