@@ -21,12 +21,14 @@ fx = find(abs(ft(:,1)) == ind(1));
 fy = find(abs(ft(:,2)) == ind(2));
 fz = find(abs(ft(:,3)) == ind(3));
 
+
 mu = [freq(1,fx); freq(1,fy); freq(1,fz);];
 
-if mu(2) == 50 %If powerline found, set to zero
-    mu(2) = 0;
-end
-
+for i = 1:3
+    if mu(i) == 50 %If powerline found, set to zero
+        mu(i) = 0;
+    end
+end 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Filter & Inverse ft
 sd = 0.5;                               %Width of filter

@@ -1,0 +1,10 @@
+Harry and Will
+
+Driving a sngle coil at a time to measure signal strength at the origin
+
+Sensor: Z
+
+20 seconds each
+
+Sampling Rate: 1213
+Num Samples 1213

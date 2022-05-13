@@ -24,13 +24,12 @@ coords1 = [-6 -4 -2 0 2 4 6];
 coords2 = [-8 -6 -4 -2 0 2 4 6];
 coords3 = [-6 -4 -2 0 2 4 6 8];
 figure(1)
-surf(coords1,coords2,uniform(:,:,1));
-hold on
+%surf(coords1,coords1,uniform(1:7,:,1)); %Y
+%hold on
 %surf(coords1,coords2,uniform(:,:,2));
-surf(coords1,coords3,uniform(:,:,3));
-zlim([0,2.5e-7])
+surf(coords1,coords1,uniform(2:8,:,3)); %Z
+%zlim([0,2.5e-7])
 xlabel('xgrid'); ylabel('ygrid'); zlabel('Magnetic Field');
-
 
 %7x7x3 Array (X)
 cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/9-5-22/x_uniformity/')
@@ -45,7 +44,7 @@ end
 uniform1 = reshape(fill2,[7,7,3]);
 
 coords1 = [-6 -4 -2 0 2 4 6];
-surf(coords1,coords1,uniform1(:,:,1))
+%surf(coords1,coords1,uniform1(:,:,1)) %X
 
 %% Errors
 averg1 = mean(fill,1);

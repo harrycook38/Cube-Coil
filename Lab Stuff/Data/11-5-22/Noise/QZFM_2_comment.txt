@@ -1,0 +1,11 @@
+Harry and Will
+Noise Recordings to determine ambient field at origin. 
+
+Sensor: Z
+
+
+Drivers are off. 
+
+60s recording
+Sampling Rate: 1213
+Num Samples 1213

@@ -3,8 +3,8 @@ close all
 clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Preamble
-cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/10-5-22/zy-uniformity')
-fname = 'QZFM_28.lvm';   %Filename
+cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/11-5-22/Origin/')
+fname = 'QZFM_1.lvm';   %Filename
 Fs = 1213;              %Sampling Frequency
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Main
@@ -34,11 +34,11 @@ fy = find(abs(ft(:,2)) == ind(2));
 fz = find(abs(ft(:,3)) == ind(3));
 
 mu = [freq(1,fx); freq(1,fy); freq(1,fz);];
-
-if mu(2) == 50 %If powerline found, set to zero
-    mu(2) = 0;
-end
-
+for i = 1:3
+    if mu(i) == 50 %If powerline found, set to zero
+        mu(i) = 0;
+    end
+end 
 disp(['Determined Frequencies: ' num2str(mu')])
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
