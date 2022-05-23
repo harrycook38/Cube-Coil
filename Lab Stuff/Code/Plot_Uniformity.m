@@ -18,18 +18,7 @@ for n = 1:nfiles
         fill(n,:) = rmsvals;
 end
 
-uniform = reshape(fill,[8,7,3]);
-
-coords1 = [-6 -4 -2 0 2 4 6];
-coords2 = [-8 -6 -4 -2 0 2 4 6];
-coords3 = [-6 -4 -2 0 2 4 6 8];
-figure(1)
-%surf(coords1,coords1,uniform(1:7,:,1)); %Y
-%hold on
-%surf(coords1,coords2,uniform(:,:,2));
-surf(coords1,coords1,uniform(2:8,:,3)); %Z
-%zlim([0,2.5e-7])
-xlabel('xgrid'); ylabel('ygrid'); zlabel('Magnetic Field');
+uniform1 = reshape(fill,[8,7,3]);
 
 %7x7x3 Array (X)
 cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/9-5-22/x_uniformity/')
@@ -41,28 +30,49 @@ for n = 1:nfiles
         fill2(n,:) = rmsvals;
 end
 
-uniform1 = reshape(fill2,[7,7,3]);
+uniform2 = reshape(fill2,[7,7,3]);
 
-coords1 = [-6 -4 -2 0 2 4 6];
-%surf(coords1,coords1,uniform1(:,:,1)) %X
+surfaces = zeros(7,7,3);
+surfaces(:,:,1) = uniform2(:,:,1);
+surfaces(:,:,2) = uniform1(1:7,:,1);
+surfaces(:,:,3) = uniform1(2:8,:,3);
+
+
+coords = [-6 -4 -2 0 2 4 6];
+figure(1)
+surf(coords,coords,surfaces(:,:,1))
+hold on
+surf(coords,coords,surfaces(:,:,2))
+surf(coords,coords,surfaces(:,:,3))
+colorbar
+xlabel('xgrid'); ylabel('ygrid'); zlabel('Magnetic Field');
+
 
 %% Errors
-averg1 = mean(fill,1);
-c1 = ((fill./averg1)-1)*100;
-error1 = reshape(c1,[8,7,3]);
 
-averg2 = mean(fill,1);
-c2 = ((fill2./averg2)-1)*100;
-error2 = reshape(c2,[7,7,3]);
+avg = squeeze(mean(mean(surfaces)));
+c = zeros(7,7,3);
 
 figure(2)
-surf(coords1,coords2,abs(error1(:,:,1)));
-xlabel('xgrid'); ylabel('ygrid'); zlabel('Percent change from mean');
+hold on
+for i = 1:3
+c(:,:,i) = ((surfaces(:,:,i)./avg(i))-1).*100;
+posc = abs(c);
+surf(coords,coords,posc(:,:,i))
+end 
+xlabel('xgrid'); ylabel('ygrid'); zlabel('Percent Change');
 
-%Percentage Change
-pc1 = mean(c1);
-pc2 = mean(c2);
+%Avg Percent Change
 
+perc = squeeze(mean(mean(posc)));
+
+xyperc = mean(perc(1:2));
+
+%clearvars -except surfaces posc
+
+xs = surfaces(:,:,1);
+ys = surfaces(:,:,2);
+zs = surfaces(:,:,3);
 
 
 

@@ -4,7 +4,7 @@ clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Preamble
 addpath('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Code')
-addpath('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/11-5-22/Origin/')
+cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/11-5-22/Noise/')
 %Requires 3 datasets, each with the sensor at the origin.
 
 %% Processing

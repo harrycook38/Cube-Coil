@@ -3,8 +3,9 @@ close all
 clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Preamble
-cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/11-5-22/Origin/')
-fname = 'QZFM_1.lvm';   %Filename
+cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/17-5-22/OPM/')
+addpath '/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Code'
+fname = 'QZFM_0.lvm';   %Filename
 Fs = 1213;              %Sampling Frequency
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Main
@@ -16,7 +17,7 @@ fgmout = rdata(:,1:3);      %FGM Data
 % plot(rtime,Iout)
 % title("Current outputs from coils")
 
-Bout = (1e-6*fgmout)./0.1;       %Field (Conversion 0.1 V/uT)
+Bout = 1e-9*(3.*fgmout./2.7); %(1e-6*fgmout)./0.1;  %Field (Conversion 0.1 V/uT)
 Bcor = Bout - mean(Bout,1); %Correct for Vertical Offset
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Fourier
@@ -102,13 +103,15 @@ subplot(2,1,1)
 plot(redt,phi)
 subplot(2,1,2)
 plot(redt,theta)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ylim([80 100])
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure(4)
 pl1 = quiver3(or(1),or(2),or(3),Bvec(1,1),Bvec(1,2),Bvec(1,3),"LineWidth",3);
 hold on
 pl2 = plot3(Bvec(1,1),Bvec(1,2),Bvec(1,3),'r-');
 xlim([-1.2*top 1.2*top]); ylim([-1.2*top 1.2*top]);zlim([-1.2*top 1.2*top]);
 axis square
+xlabel('x'); ylabel('y'); zlabel('z');
 
 for j = 1:length(rtime(1:2:end))
     pl1.UData = Bvec(j,1);
@@ -121,16 +124,56 @@ for j = 1:length(rtime(1:2:end))
     drawnow
 end
 
-%% Power Spectrum check
-% psd = (1/(Fs*N)).*ft.*conj(ft);
-% psd(2:end-1,:) = 2*psd(2:end-1,:);
+%% Sphere no drawing
 % 
-% for d = 1 %Plotting...
-% figure(4)
-% subplot(3,1,1)
-% plot(freq,10*log10(psd(:,1)))
-% subplot(3,1,2)
-% plot(freq,10*log10(psd(:,2)))
-% subplot(3,1,3)
-% plot(freq,10.*log10(psd(:,3)))
-% end
+% figure(5)
+% pl2 = plot3(Bvec(:,1),Bvec(:,2),Bvec(:,3),'r-');
+% xlim([-1.2*top 1.2*top]); ylim([-1.2*top 1.2*top]);zlim([-1.2*top 1.2*top]);
+% axis square
+% xlabel('x'); ylabel('y'); zlabel('z');
+% 
+
+%% Circle from OPM
+figure(100)
+pl4 = plot(Bvec(4000:end-4000,2),Bvec(4000:end-4000,3),'r-');
+xlim([-1.2*top 1.2*top]); ylim([-1.2*top 1.2*top]);zlim([-1.2*top 1.2*top]);
+axis square
+grid on
+xlabel('y (Tesla)','FontSize',15); 
+ylabel('z (Tesla)','FontSize',15); 
+
+
+
+%% Draw single sphere (FGM)
+starts = find(Bvec(:,2) == max(Bvec(:,2)));
+ends = find(Bvec(:,2) == min(Bvec(:,2)));
+
+figure(6)
+pl2 = plot3(Bvec(starts:ends,1),Bvec(starts:ends,2),Bvec(starts:ends,3),'r-');
+xlim([-1.2*top 1.2*top]); ylim([-1.2*top 1.2*top]);zlim([-1.2*top 1.2*top]);
+axis square
+grid on
+xlabel('x (Tesla)','FontSize',15); 
+ylabel('y (Tesla)','FontSize',15); 
+zlabel('z (Tesla)','FontSize',15);
+
+figure(7)
+subplot(2,1,1)
+plot(redt(4000:end-4000),phi(4000:end-4000),'LineWidth',2)
+ylabel('Phi (Deg)','FontSize',15)
+xlabel('Time (s)','FontSize',15)
+subplot(2,1,2)
+plot(redt(4000:end-4000),theta(4000:end-4000),'LineWidth',3)
+ylabel('Theta (Deg)','FontSize',15)
+xlabel('Time (s)','FontSize',15)
+ylim([80 100])
+
+
+%% Magnetic Vector symmetry
+
+Mag = sqrt(Bvec(:,1).^2+Bvec(:,2).^2+Bvec(:,3).^2);
+
+figure(200)
+plot(redt,Mag)
+
+

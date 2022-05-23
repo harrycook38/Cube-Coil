@@ -1,0 +1,19 @@
+Harry and Will
+
+OPM MEASUREMENTS
+
+Ignore X channel from OPM
+
+Input: 0.31Hz @ 0.1 
+Cos in X, Sin in Y input
+
+Sampling: 1213 Hz
+Output rate: 10000 Hz
+Output duration: 100000 Hz
+
+Channels used:  ai0:2 (FGM), ai19:21 (V across resistor)
+                             ao 12:14
+
+
+Need to change code (not FGM conversion anymore).
+

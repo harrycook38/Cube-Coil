@@ -1,0 +1,19 @@
+Harry and Will
+
+Final FGM Measurements for the moving sphere
+
+Z measures Y coil. Y measures Z coil. X is X. 
+Z sensor is centred on the origin
+
+X Coil driving:  5V
+Y Coil driving: 5V
+Z Coil driiving: 4V
+Sampling: 1213 Hz
+Output rate: 10000 Hz
+Output duration: 100000 Hz
+
+Channels used:  ai0:2 (FGM), ai19:21 (V across resistor)
+                             ao 12:14
+
+
+
