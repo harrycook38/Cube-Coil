@@ -3,7 +3,7 @@ close all
 clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Preamble
-cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/17-5-22/OPM/')
+cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/17-5-22/OPM')
 addpath '/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Code'
 addpath '/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff'/PlotData/Videos/
 fname = 'QZFM_0.lvm';   %Filename
@@ -70,60 +70,131 @@ theta = acosd(Bvec(:,2));
 phi = atand(Bvec(:,1)./Bvec(:,3));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% OPM
+%% Sphere
 
+% cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/PlotData/Videos/')
+% f1 = figure(1);
+% f1.WindowState = 'fullscreen';
+% 
+% subplot(2,2,[1 3])
+% pl1 = quiver3(or(1),or(2),or(3),Bvec(1,1),Bvec(1,2),Bvec(1,3),"LineWidth",3);
+% hold on
+% pl2 = plot3(Bvec(1,1),Bvec(1,2),Bvec(1,3),'r-');
+% xlim([-1.2*top 1.2*top]); ylim([-1.2*top 1.2*top]);zlim([-1.2*top 1.2*top]);
+% axis square
+% xlabel('x (Tesla)',FontSize=15); ylabel('y (Tesla)',FontSize=15); zlabel('z (Tesla)',FontSize=15);
+
+% newtt = redt(4000:end-4000);
+% Bnewb = Bvec(4000:end-4000,:);
+% minin = find(Bnewb(:,2) == min(Bnewb(:,2)));
+% maxin = find(Bnewb(:,2) == max(Bnewb(:,2)));
+% newt = newtt(maxin:minin);
+% Bnew = Bnewb(maxin:minin,:);
+% 
+% phit = phi(4000:end-4000);
+% newphi = phit(maxin:minin);
+% thetat = theta(4000:end-4000);
+% newthet = thetat(maxin:minin);
+
+% subplot(2,2,2)
+% pl3 = plot(newt(1),newphi(1));
+% xlim([newt(1) newt(end)]); ylim([-95 95]); pbaspect([2 1 1]);
+% title("Azimuthal Angle",FontSize=20)
+% xlabel("Time (s)",FontSize=15); ylabel("Phi",FontSize=15)
+% 
+% subplot(2,2,4)
+% pl4 = plot(newt(1),newthet(1));
+% xlim([newt(1) newt(end)]); ylim([0 190]); pbaspect([2 1 1]);
+% title("Polar Angle",FontSize=20)
+% xlabel("Time (s)",FontSize=15); ylabel("Theta",FontSize=15)
+% 
+% %plot sequentially and save 
+% %Mov(length(newt)) = struct('cdata',[],'colormap',[]); %Create Movie file
+% 
+% filename = fullfile(pwd,'Test.mp4');
+% Vid = VideoWriter(filename,'MPEG-4'); %Write to film
+% Vid.FrameRate = 606; %Framerate
+% open(Vid)
+% for j = 1:length(newt)
+%     pl1.UData = Bnew(j,1);
+%     pl1.VData = Bnew(j,2);
+%     pl1.WData = Bnew(j,3);
+% 
+%     pl2.XData = Bnew(1:j,1);
+%     pl2.YData = Bnew(1:j,2);
+%     pl2.ZData = Bnew(1:j,3);
+% 
+%     pl3.XData = newt(1:j);
+%     pl3.YData = newphi(1:j);
+% 
+%     pl4.XData = newt(1:j);
+%     pl4.YData = newthet(1:j);
+%  
+%     drawnow
+% 
+%     Frame = getframe(gcf); %Write frames to movie
+%     writeVideo(Vid,Frame);
+% end
+% close(Vid)
+% %Export as a movie
+
+%% OPM
 cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/PlotData/Videos/')
-figure(1)
-pl1 = quiver3(or(1),or(2),or(3),Bvec(1,1),Bvec(1,2),Bvec(1,3),"LineWidth",3);
-hold on
-pl2 = plot3(Bvec(1,1),Bvec(1,2),Bvec(1,3),'r-');
-xlim([-1.2*top 1.2*top]); ylim([-1.2*top 1.2*top]);zlim([-1.2*top 1.2*top]);
-axis square
-xlabel('x'); ylabel('y'); zlabel('z');
+f1 = figure(1);
+f1.WindowState = 'fullscreen';
 
 newt = redt(4000:end-4000);
-Bnew = Bvec(4000:end-4000);
+Bnew = Bvec(4000:end-4000,:);
+
+phi = phi(4000:end-4000);
+theta = theta(4000:end-4000);
+
+subplot(2,2,[1 3])
+pl1 = quiver(0,0,Bnew(1,2),Bnew(1,3),'LineWidth',3);
+hold on
+pl2 = plot(Bnew(1,2),Bnew(1,3),'r-');
+xlim([-1.2*top 1.2*top]); ylim([-1.2*top 1.2*top]);zlim([-1.2*top 1.2*top]);
+axis square
+xlabel('y (Tesla)',FontSize=15); ylabel('z (Tesla)',FontSize=15);
+
+subplot(2,2,2)
+pl3 = plot(newt(1),phi(1));
+xlim([newt(1) newt(end)]); ylim([-95 95]); pbaspect([2 1 1]);
+title("Azimuthal Angle",FontSize=20)
+xlabel("Time (s)",FontSize=15); ylabel("Phi",FontSize=15)
+
+subplot(2,2,4)
+pl4 = plot(newt(1),theta(1));
+xlim([newt(1) newt(end)]); ylim([0 190]); pbaspect([2 1 1]);
+title("Polar Angle",FontSize=20)
+xlabel("Time (s)",FontSize=15); ylabel("Theta",FontSize=15)
 
 %plot sequentially and save 
-Mov(length(redt)) = struct('cdata',[],'colormap',[]); %Create Movie file
+%Mov(length(newt)) = struct('cdata',[],'colormap',[]); %Create Movie file
 
+filename = fullfile(pwd,'Test.mp4');
+Vid = VideoWriter(filename,'MPEG-4'); %Write to film
+Vid.FrameRate = 606; %Framerate
+open(Vid)
 for j = 1:length(newt)
-    pl1.UData = Bvec(j,1);
-    pl1.VData = Bvec(j,2);
-    pl1.WData = Bvec(j,3);
+    pl1.UData = Bnew(j,2);
+    pl1.VData = Bnew(j,3);
 
-    pl2.XData = Bvec(1:j,1);
-    pl2.YData = Bvec(1:j,2);
-    pl2.ZData = Bvec(1:j,3);
+    pl2.XData = Bnew(1:j,2);
+    pl2.YData = Bnew(1:j,3);
+
+    pl3.XData = newt(1:j);
+    pl3.YData = phi(1:j);
+
+    pl4.XData = newt(1:j);
+    pl4.YData = theta(1:j);
+ 
     drawnow
 
-    Mov(j) = getframe(gcf); %Acquire frames from plot for movie
-
-end
-
-%Export as a movie
-
-Vid = VideoWriter('Mov1.mp4','MPEG-4'); %Write to film
-Vid.FrameRate = 606; %Framerate
-Vid.Quality = 100; %Video Quality
-open(Vid)
-
-for tt = 1:newt
-    Frame = Mov(tt).cdata; %Write frames to movie
+    Frame = getframe(gcf); %Write frames to movie
     writeVideo(Vid,Frame);
 end
 close(Vid)
-
-
-
-
-%% OPM
-figure(100)
-pl4 = plot(Bvec(4000:end-4000,2),Bvec(4000:end-4000,3),'r-');
-xlim([-1.2*top 1.2*top]); ylim([-1.2*top 1.2*top]);zlim([-1.2*top 1.2*top]);
-axis square
-grid on
-xlabel('y (Tesla)','FontSize',15); 
-ylabel('z (Tesla)','FontSize',15); 
+%Export as a movie
 
 

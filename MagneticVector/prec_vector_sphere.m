@@ -53,7 +53,7 @@ axis square; grid on;
 
 figure(10) %Drawing Vectors and show angles through time
 
-subplot(1,3,1)
+subplot(2,2,[1 3])
 pl1 = quiver3(or(1),or(2),or(3),r2(1,1),r2(2,1),r2(3,1),"LineWidth",3);
 hold on
 pl2 = plot3(r2(1,1),r2(2,1),r2(3,1),'r-');
@@ -62,13 +62,13 @@ xlabel("X",FontSize=15); ylabel("Y",FontSize=15); zlabel("Z",FontSize=15);
 axis square
 title("Field Output",FontSize=20)
 
-subplot(1,3,2)
+subplot(2,2,2)
 pl3 = plot(t(1),phi(1));
 xlim([0 max(t)]); ylim([-95 95]);
 title("Azimuthal Angle",FontSize=20)
 xlabel("Time (s)",FontSize=15); ylabel("Phi",FontSize=15)
 
-subplot(1,3,3)
+subplot(2,2,4)
 pl4 = plot(t(1),theta(1));
 xlim([0 max(t)]); ylim([0 190]); 
 title("Polar Angle",FontSize=20)
