@@ -3,7 +3,7 @@ close all
 clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Preamble
-cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/17-5-22/OPM/')
+cd('/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Data/5-4-22/')
 addpath '/Users/Harry/Documents/GitHub/Cube-Coil/Lab Stuff/Code'
 fname = 'QZFM_0.lvm';   %Filename
 Fs = 1213;              %Sampling Frequency
@@ -17,7 +17,7 @@ fgmout = rdata(:,1:3);      %FGM Data
 % plot(rtime,Iout)
 % title("Current outputs from coils")
 
-Bout = 1e-9*(3.*fgmout./2.7); %(1e-6*fgmout)./0.1;  %Field (Conversion 0.1 V/uT)
+Bout = (1e-6*fgmout)./0.1; %1e-9*(3.*fgmout./2.7);   %Field (Conversion 0.1 V/uT)
 Bcor = Bout - mean(Bout,1); %Correct for Vertical Offset
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Fourier
